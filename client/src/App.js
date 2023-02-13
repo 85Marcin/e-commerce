@@ -1,10 +1,14 @@
-import "./App.css";
+import { ChackraProvider } from "@chakra-ui/react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello</h1>
-    </div>
+    <ChackraProvider>
+      <Router>
+        <Navbar />
+        <main></main>
+      </Router>
+    </ChackraProvider>
   );
 }
 
