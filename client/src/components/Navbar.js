@@ -52,11 +52,11 @@ const Navbar = () => {
         <HStack>
           <Link as={ReactLink} to="/">
             <Flex alignItems="center">
-              <Icon as={SiAtandt} h={10} w={10} color="orange.400" />
+              <Icon as={SiAtandt} h={10} w={10} color="orange.400" m={3} />
               <Text fontWeight="extrabold">Just a Shop</Text>
             </Flex>
           </Link>
-          <HStack>
+          <HStack as="nav" spacing={4} display={{ base: "none", md: "flex" }}>
             {links.map((link) => (
               <NavLink key={link.linkName} path={link.path}>
                 {link.linkName}
@@ -72,8 +72,43 @@ const Navbar = () => {
               onClick={() => toggleColorMode()}
             />
           </NavLink>
+          <Button
+            as={ReactLink}
+            to="/login"
+            p={2}
+            fontSize="sm"
+            fontWeight={400}
+            variant="link" //it has an underline when hover over it
+          >
+            Sign in
+          </Button>
+          <Button
+            as={ReactLink}
+            to="/registration  "
+            p={2}
+            display={{ base: "none", md: "inline-flex" }}
+            fontSize="sm"
+            fontWeight={400}
+            _hover={{ bg: "orange.400" }}
+            bg={"orange.500"}
+            color={"white"}
+          >
+            Sign up
+          </Button>
         </Flex>
       </Flex>
+      {isOpen ? (
+        <Box pb={4} display={{ md: "none" }}>
+          <Stack as="nav" spacing={4}>
+            {links.map((link) => (
+              <NavLink key={link.linkName} path={link.path}>
+                {link.linkName}
+              </NavLink>
+            ))}
+            <NavLink path={"/registration"}>Sign Up</NavLink>
+          </Stack>
+        </Box>
+      ) : null}
     </Box>
   );
 };
