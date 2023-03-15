@@ -51,6 +51,14 @@ function ProductScreen() {
       setAmount(amount - 1);
     }
   };
+  const addItem = () => {
+    dispatch(addCartItem(product._id, amount));
+    toast({
+      description: `Item has been added`,
+      status: `success`,
+      isClosable: true,
+    });
+  };
 
   return (
     <Wrap spacing="30px" justify="center" minHeight="100vh">
@@ -97,6 +105,16 @@ function ProductScreen() {
                     colorScheme="green"
                   >
                     New
+                  </Badge>
+                )}
+                {product.stock === 0 && (
+                  <Badge
+                    rounded="full"
+                    w="70px"
+                    fontSize="0.8em"
+                    colorScheme="green"
+                  >
+                    Sold out
                   </Badge>
                 )}
                 <Heading fontSize="2xl" fontFamily="extrabold">
@@ -161,8 +179,75 @@ function ProductScreen() {
                       <SmallAddIcon w="20px" h="25px" />
                     </Button>
                   </Flex>
+                  <Button
+                    isDisabled={product.stock === 0}
+                    colorScheme="orange"
+                    onClick={() => addItem()}
+                  >
+                    Add to cart
+                  </Button>
+                  <Stack width="270px">
+                    <Flex alignItems="center">
+                      <BiPackage size="20px" />
+                      <Text fontSize="sm" ml="2">
+                        Free shipping if order is above $1000
+                      </Text>
+                    </Flex>
+                    <Flex alignItems="center">
+                      <BiSupport size="20px" />
+                      <Text fontSize="sm" ml="2">
+                        We're here for you
+                      </Text>
+                    </Flex>
+                  </Stack>
                 </Stack>
               </Stack>
+              <Flex
+                direction="column"
+                align="center"
+                flex="1"
+                _dark={{ bg: "gray.900" }}
+              >
+                <Image mb="30px" src={product.image} alt={product.name} />
+              </Flex>
+            </Stack>
+            <Stack>
+              <Text fontSize="xl" fontWeight="bold">
+                Reviews
+                <SimpleGrid
+                  minChildWith="300px"
+                  spacingx="30px"
+                  spacingy="20px"
+                >
+                  {product.reviews.map((review) => (
+                    <Box key={review._id}>
+                      <Flex spacing="2px" alignItems="center">
+                        <StarIcon color="orange.500" />
+                        <StarIcon
+                          color={review.rating >= 2 ? "orange.500" : "gray.200"}
+                        />
+                        <StarIcon
+                          color={review.rating >= 4 ? "orange.500" : "gray.200"}
+                        />
+                        <StarIcon
+                          color={review.rating >= 4 ? "orange.500" : "gray.200"}
+                        />
+                        <StarIcon
+                          color={review.rating >= 5 ? "orange.500" : "gray.200"}
+                        />
+                        <Text ml="4px">
+                          {review.title} && {review.title}
+                        </Text>
+                      </Flex>
+                      <Box py="12px">{review.comment}</Box>
+                      <Text>
+                        by {review.name},{" "}
+                        {new Date(review.createdAt).toDateString()}
+                      </Text>
+                    </Box>
+                  ))}
+                </SimpleGrid>
+              </Text>
             </Stack>
           </Box>
         )
